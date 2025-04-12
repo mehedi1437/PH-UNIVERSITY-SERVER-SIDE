@@ -13,12 +13,12 @@ export type TUserName = {
   middleName: string;
   lastName: string;
 };
-export type TLocalGurdian ={
-    name:string;
-    occupation:string;
-    contactNo:string;
-    address:string;
-}
+export type TLocalGurdian = {
+  name: string;
+  occupation: string;
+  contactNo: string;
+  address: string;
+};
 
 export type TStudent = {
   id: string;
@@ -32,7 +32,7 @@ export type TStudent = {
   presentAddress: string;
   permanentAddress: string;
   guardian: TGurdian;
-  localGuardian:TLocalGurdian;
-  profileImage?:string;
-  isActive:'active' | 'blocked';
+  localGuardian: TLocalGurdian;
+  profileImage?: string;
+  isActive: 'active' | 'blocked';
 };

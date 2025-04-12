@@ -49,5 +49,5 @@ const StudentSchema = new Schema<TStudent>({
   isActive: { type: String, enum: ['active', 'blocked'], required: true },
 });
 
-const Student = model<TStudent>('Student', StudentSchema);
-export default Student;
+const StudentModel = model<TStudent>('Student', StudentSchema);
+export default StudentModel;
