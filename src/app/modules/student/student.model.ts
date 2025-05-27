@@ -29,9 +29,9 @@ const LocalGuardianSchema = new Schema<TLocalGurdian>({
 });
 
 const StudentSchema = new Schema<TStudent>({
-  id: { type: String },
+  id: { type: String, unique: true },
   name: { type: UserNameSchema, required: true },
-  gender: { type: String, enum: ['male', 'female'], required: true },
+  gender: { type: String, enum: ['male', 'female','others'], required: true },
   dateOfBirth: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   contactNo: { type: String, required: true },
@@ -46,7 +46,12 @@ const StudentSchema = new Schema<TStudent>({
   guardian: { type: GuardianSchema, required: true },
   localGuardian: { type: LocalGuardianSchema, required: true },
   profileImage: { type: String, required: false },
-  isActive: { type: String, enum: ['active', 'blocked'], required: true },
+  isActive: {
+    type: String,
+    enum: ['active', 'blocked'],
+    default: 'active',
+    required: true,
+  },
 });
 
 const StudentModel = model<TStudent>('Student', StudentSchema);
