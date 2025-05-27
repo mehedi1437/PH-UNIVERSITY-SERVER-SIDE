@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import {
+  StudentMethods,
+  StudentModel,
   TGurdian,
   TLocalGurdian,
   TStudent,
@@ -28,10 +30,10 @@ const LocalGuardianSchema = new Schema<TLocalGurdian>({
   address: { type: String, required: true },
 });
 
-const StudentSchema = new Schema<TStudent>({
+const StudentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   id: { type: String, unique: true },
   name: { type: UserNameSchema, required: true },
-  gender: { type: String, enum: ['male', 'female','others'], required: true },
+  gender: { type: String, enum: ['male', 'female', 'others'], required: true },
   dateOfBirth: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   contactNo: { type: String, required: true },
@@ -54,5 +56,13 @@ const StudentSchema = new Schema<TStudent>({
   },
 });
 
-const StudentModel = model<TStudent>('Student', StudentSchema);
-export default StudentModel;
+
+// Creating a custom instance method
+// StudentSchema.methods.isUserExists = async function (id: string) {
+//   const existingUSer = await Student.findOne({ id });
+//   return existingUSer;
+// };
+
+
+const Student = model<TStudent, StudentModel>('Student', StudentSchema);
+export default Student;

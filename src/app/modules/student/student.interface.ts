@@ -1,4 +1,4 @@
-import { Schema, model, connect } from 'mongoose';
+import { Schema, model, connect, Model } from 'mongoose';
 
 export type TGurdian = {
   fatherName: string;
@@ -23,7 +23,7 @@ export type TLocalGurdian = {
 export type TStudent = {
   id: string;
   name: TUserName;
-  gender: 'male' | 'female'|'others';
+  gender: 'male' | 'female' | 'others';
   dateOfBirth?: string;
   email: string;
   contactNo: string;
@@ -36,3 +36,19 @@ export type TStudent = {
   profileImage?: string;
   isActive: 'active' | 'blocked';
 };
+
+// ! for creating  Static
+interface StudentModel extends Model<TStudent>{
+  
+}
+
+// ! for creating instance
+// export type StudentMethods = {
+//   isUserExists(id: string): Promise<TStudent | null>;
+// };
+
+// export type StudentModel = Model<
+//   TStudent,
+//   Record<string, never>,
+//   StudentMethods
+// >;
