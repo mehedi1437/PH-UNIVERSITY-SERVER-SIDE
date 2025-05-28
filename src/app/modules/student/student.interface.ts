@@ -22,6 +22,7 @@ export type TLocalGurdian = {
 
 export type TStudent = {
   id: string;
+  password:string;
   name: TUserName;
   gender: 'male' | 'female' | 'others';
   dateOfBirth?: string;
@@ -38,8 +39,8 @@ export type TStudent = {
 };
 
 // ! for creating  Static
-interface StudentModel extends Model<TStudent>{
-  
+export interface StudentModel extends Model<TStudent>{
+    isUserExists(id:string):Promise<TStudent | null>
 }
 
 // ! for creating instance

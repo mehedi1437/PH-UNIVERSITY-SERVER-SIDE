@@ -26,6 +26,7 @@ const LocalGuardianvalidationSchema = z.object({
 // Main Student schema
 export const StudentValidationSchema = z.object({
   id: z.string(), // Since Mongoose auto-generates _id
+  password:z.string().max(20),
   name: UserNamevalidationSchema,
   gender: z.enum(['male', 'female', 'others']),
   dateOfBirth: z.string(), // You may consider z.coerce.date() if needed

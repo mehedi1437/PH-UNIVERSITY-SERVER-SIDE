@@ -1,12 +1,13 @@
 import { Schema, model } from 'mongoose';
 import {
-  StudentMethods,
   StudentModel,
   TGurdian,
   TLocalGurdian,
   TStudent,
   TUserName,
 } from './student.interface';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const GuardianSchema = new Schema<TGurdian>({
   fatherName: { type: String, required: true },
@@ -30,8 +31,13 @@ const LocalGuardianSchema = new Schema<TLocalGurdian>({
   address: { type: String, required: true },
 });
 
-const StudentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
+const StudentSchema = new Schema<TStudent, StudentModel>({
   id: { type: String, unique: true },
+  password: {
+    type: String,
+    unique: true,
+    maxlength: [20, 'password cannot br more than 20 character'],
+  },
   name: { type: UserNameSchema, required: true },
   gender: { type: String, enum: ['male', 'female', 'others'], required: true },
   dateOfBirth: { type: String, required: true },
@@ -56,13 +62,34 @@ const StudentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   },
 });
 
+// ! Pre save middleware hook : will work on create() save()
+StudentSchema.pre('save', async function (next) {
+  // console.log(this, 'Pre Hook : We Will save the data');
+  // ? hasing password and save into DB
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_round),
+  );
+  next()
+});
+// ! Post save middleware/hook
+StudentSchema.post('save', function () {
+  console.log(this, 'Post Hook : We Saved our  data');
+});
 
-// Creating a custom instance method
+// ! Creating a custom Static method
+
+StudentSchema.statics.isUserExists = async function (id: string) {
+  const existingUSer = await Student.findOne({ id });
+  return existingUSer;
+};
+
+//! Creating a custom instance method
 // StudentSchema.methods.isUserExists = async function (id: string) {
 //   const existingUSer = await Student.findOne({ id });
 //   return existingUSer;
 // };
-
 
 const Student = model<TStudent, StudentModel>('Student', StudentSchema);
 export default Student;
