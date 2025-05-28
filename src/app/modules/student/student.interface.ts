@@ -36,6 +36,7 @@ export type TStudent = {
   localGuardian: TLocalGurdian;
   profileImage?: string;
   isActive: 'active' | 'blocked';
+  isDeleted:boolean
 };
 
 // ! for creating  Static

@@ -2,12 +2,10 @@ import { TStudent } from './student.interface';
 import Student from './student.model';
 
 const createStudentIntoDB = async (studentData: TStudent) => {
-   if (await Student.isUserExists(studentData.id)) {
+  if (await Student.isUserExists(studentData.id)) {
     throw new Error('User Already Exists');
   }
   const result = await Student.create(studentData); // built in static Method
-
- 
 
   // const student = new Student(studentData); //create an instance
   // if (await student.isUserExists(studentData.id)) {
@@ -25,9 +23,15 @@ const getSingleStudentsFromDB = async (id: string) => {
   const result = await Student.findOne({ id });
   return result;
 };
+// Delete student from DB
+const DeleteStudentsFromDB = async (id: string) => {
+  const result = await Student.updateOne({ id }, { isDeleted: true });
+  return result;
+};
 
 export const studentService = {
   createStudentIntoDB,
   getAllStudentsFromDB,
   getSingleStudentsFromDB,
+  DeleteStudentsFromDB
 };
